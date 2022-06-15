@@ -1,0 +1,75 @@
+<%- include('header.ejs') %>
+<%- include('nav.ejs') %>
+    
+    <!-- =============== Conteúdo ================== -->
+    <div class="container mt-5 pt-5">
+        <header>
+            <h1>Books Online
+                <small>Market Place de Livros  </small>
+            </h1>
+        </header>
+        <!-- =============== Cadastro ================== -->
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-lg-8">
+                <div class="card col-sm-12 col-lg-12">
+                     <div class="card-body">
+                        <h4 class="card-title">Meu Carrinho</h4>
+                        <hr />
+                        <div class="row mb-3 text-center">
+                            <div class="col-sm-6 col-lg-5"><b>Produto</b></div>
+                            <div class="col-sm-6 col-lg-2"><b>Qtd</b></div>
+                            <div class="col-sm-6 col-lg-3"><b>Valor</b></div>
+                            <div class="col-sm-6 col-lg-2 text-center"><span class="material-icons-outlined"><b>Excluir?</b></span></div>
+                        </div>
+                        <hr />
+                        <% 
+                            var total=0
+                            carrinhos.forEach((item) => {
+                            total += item.valor
+                        %>
+                        <div class="row">
+                            <div class="col-sm-6 col-lg-5 mt-3"><%=item.produto%></div>
+                            <div class="col-sm-6 col-lg-2 mt-3 text-center"><%=item.qtd%></div>
+                            <div class="col-sm-6 col-lg-3 mt-3 text-right">R$ <%=(item.valor.toFixed(2)).toString().replace(".",",")%></div>
+                            <!-- <div class="col-sm-6 col-lg-2" style="cursor:pointer; text-decoration:underline" href="/">Excluir</div> -->
+                            <div class="col-sm-6 col-lg-2">
+                            <button class="btn btn-warning bt-carrinho mt-2" data-id="<%=item.carrinho_id%>">Excluir</button>
+                            </div>
+                        </div>
+                        <% }) %>
+                        <hr />
+                        <div class="text-right mt-4 font-weight-bold">Total: R$ <%=(total.toFixed(2)).toString().replace(".",",")%></div>
+                    </div>
+                </div>
+            </div>
+
+        <!-- =============== Fim do Cadastro ================== -->
+            <div class="card col-sm-4 col-lg-4">
+                <div class="card-body">
+                    <h4 class="card-title">Resumo</h4><hr />
+                    <p class="mt-4 font-weight-bold">Total: R$ <%=(total.toFixed(2)).toString().replace(".",",")%></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- =============== Fim do Conteúdo ================== -->
+    <script src="js/jquery-3.2.1.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script>
+        $().ready(function(){
+            //console.log("Jquery funfando...")
+                $('.bt-carrinho').click(function(){
+                //alert($(this).attr('data-id'))
+                let dataid=$(this).attr('data-id') 
+                $.post("/delete-carrinho",{ 
+                    id:dataid
+                },
+                function(data, status){ 
+                    location.href='/carrinho' 
+                },'json') // Formato das informações importadas (objeto)
+            })
+        })
+    </script>
+
+<%- include('footer.ejs') %>

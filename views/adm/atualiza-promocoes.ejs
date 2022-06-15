@@ -1,0 +1,82 @@
+<%- include('header.ejs') %>
+<%- include('nav.ejs') %>
+    
+    <!-- =============== Conteúdo ================== -->
+    <div class="container mt-5 pt-5">
+        <header class="text-center">
+            <h1>Books Online<br>
+                <small>Market Place de Livros <%=promo%></small>
+            </h1>
+        </header>
+        <!-- =============== Formulário de Atualização ================== --> 
+        <h3 class="alert alert-info mt-3">Atualizar Promoções</h3>
+        <form action="./atualiza-promo" method="GET" class="mt-2 mb-5">
+            <div class="form-group">
+                <label for="promo">Adicionar a lista de promoções?</label>
+                <div>
+                    <input type="radio" class="col-lg-1" value="1" id="promo_sim" name="promo">Sim
+                    <input type="radio" class="col-lg-1" value="0" id="promo_nao" name="promo">Não
+                </div>
+            </div>            
+            <div class="form-group">
+                <label for="livro">Livro</label>
+                <select name="id">
+                    <% inicio.forEach((item) => { %>
+                    <option value="<%=item.livros_id%>"><%=item.titulo%></option>
+                    <% }) %>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirmar</button>
+        </form>        
+        <!-- =============== Produtos ================== -->
+        <div class="row">
+            <!--Inicio da single-->
+
+            <div class="livro col-md-12 col-sm-12 col-lg-12">
+                <div class="card">
+                    <img class="card-img-top w-25" src="books/<%=inicio[0].imagem%>" alt="Card image cap">
+                    <div class="card-body">
+                        <h4 class="card-title"><%=inicio[0].titulo%></h4>
+                        <p class="card-text"><%=inicio[0].resumo%></p>
+                        <h2>R$ <%=inicio[0].valor%></h2>
+                        <a href="carrinho/?id=<%=inicio[0].livros_id%>" class="btn btn-primary">Adicionar ao carrinho</a>
+                    </div>
+                </div>
+            </div>
+
+            <!--Fim do bloco da single-->
+        </div>
+        <!-- =============== Fim dos Produtos ================== -->
+
+        <!-- =============== Paginação ================== -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- =============== Fim da Paginação ================== -->
+    </div>
+    <!-- =============== Fim do Conteúdo ================== -->
+<script src="js/controle.js"></script>
+<%- include('footer.ejs') %>

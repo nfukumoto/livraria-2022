@@ -1,0 +1,82 @@
+<%- include('header.ejs') %>
+<%- include('nav.ejs') %>
+    
+    <!-- =============== Conteúdo ================== -->
+    <div class="container mt-5 pt-5">
+        <header class="text-center">
+            <h1>Books Online<br>
+                <small>Market Place de Livros <%=promo%></small>
+            </h1>
+        </header>
+        <!-- =============== Produtos ================== -->
+        <!--Inicio da single-->
+        <div class="livro card p-2">
+            <div class="card-body row">
+                <div class="col-sm-2">
+                    <img class="w-100" src="books/<%=galeria[0].imagem%>" alt="Card image cap">
+                </div>
+                <div class="col-sm-10">
+                    <h4 class="card-title"><%=galeria[0].titulo%></h4>
+                    <p class="card-text"><%=galeria[0].resumo%></p>
+                    <div style="position: absolute; bottom:0vh;">
+                        <h2>R$ <%=galeria[0].valor.toString().replace(".",",")%></h2>
+                        <button data-id="<%=galeria[0].livros_id%>" data-produto="<%=galeria[0].titulo%>" data-valor="<%=galeria[0].valor%>" class="btn btn-primary bt-carrinho">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Fim do bloco da single-->
+        <!-- =============== Fim dos Produtos ================== -->
+
+        <!-- =============== Paginação ================== -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-
+                item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- =============== Fim da Paginação ================== -->
+    </div>
+    <!-- =============== Fim do Conteúdo ================== -->
+<script src="js/controle.js"></script>
+<script>
+    $().ready(function(){
+        //console.log("Jquery funfando...")
+        $('.bt-carrinho').click(function(){
+            //alert($(this).attr('data-id'))
+            let dataid=$(this).attr('data-id') // Click do botão
+            let dataProduto=$(this).attr('data-produto')
+            let dataValor=$(this).attr('data-valor')
+            $.post("/carrinho-p",{ // Procura o app.post
+                livros_id:dataid,
+                qtd:1,
+                produto:dataProduto,
+                valor:dataValor
+            },
+            function(data, status){ // Callback
+                location.href='/carrinho' // Procura o app.get
+            },'json') // Formato das informações importadas (objeto)
+        })
+    })
+</script>
+<%- include('footer.ejs') %>

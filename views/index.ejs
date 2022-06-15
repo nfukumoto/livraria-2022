@@ -1,0 +1,121 @@
+<%- include('header.ejs') %>
+<%- include('nav.ejs') %>
+ 
+    <!-- =============== Conteúdo ================== -->
+    <div class="container mt-5 pt-5">
+        <header class="text-center">
+            <h1>Books Online<br>
+                <small>Market Place de Livros <%=promo%></small>
+            </h1>
+                <% if (promo) { %>
+                    <p>Compre agora o novo livro - <b><%=livro[0].titulo%></b></p>
+                <% } %>
+        </header>
+<!--         <div>
+             <h5>Confira outros títulos</h5>
+            <ul>
+                <lh>No. - Título - Genero - Diretor</lh>
+                <% livro.forEach((item,n) => { 
+                    if (n > 0) {
+                %>
+                    <li><%=n%> - <%=item.titulo%> - <%=item.genero%> - <%=item.nome%></li>
+                <% }
+                }) %>
+            </ul>
+            <h5 class="text-center">Confira outros títulos</h5>
+            <table class="mx-auto" border="1" width="500">
+                <tr class="text-center">
+                    <th>No.</th>
+                    <th>Título</th>
+                    <th>Genero</th>
+                    <th>Diretor</th>
+                </tr>
+                <% livro.forEach((item,n) => { 
+                    if (n > 0) {
+                %>
+                <tr>
+                    <td class="text-center"><%=n%></td>
+                    <td><%=item.titulo%></td>
+                    <td><%=item.genero%></td>
+                    <td><%=item.nome%></td>
+                </tr>
+                <% }
+                }) %>
+            </table>
+        </div> -->
+        <!-- =============== Produtos ================== -->
+        <div class="row">
+            <!--Inicio da iteração-->
+            <% galeria.forEach((item) => { %>
+            <div class="livro col-md-16 col-sm-16 col-lg-3">
+                <div class="card" style="height: 110vh;">
+                    <a href="/single-produto?id=<%=item.livros_id%>">
+                        <img class="card-img-top" src="books/<%=item.imagem%>" alt="Card image cap">
+                    </a>
+                    <div class="card-body">
+                        <h4 class="card-title"><%=item.titulo%></h4>
+                        <p class="card-text"><%=item.resumo.substring(0, 200)%>...</p>
+                        <div style="position: absolute; right: 2vh; bottom: 2vh;">
+                            <h2 class="text-right">R$ <%=item.valor.toString().replace(".",",")%></h2>
+                            <!-- <a href="carrinho/?id=<%=item.livros_id%>" class="btn btn-primary">Adicionar ao carrinho</a> -->
+                            <button data-id="<%=item.livros_id%>" data-produto="<%=item.titulo%>" data-valor="<%=item.valor%>" class="btn btn-primary bt-carrinho">Adicionar ao carrinho</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <% }) %>
+            <!--Fim do bloco de iteração-->
+        </div>
+        <!-- =============== Fim dos Produtos ================== -->
+
+        <!-- =============== Paginação ================== -->
+        <nav>
+            <ul class="pagination">
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                </li>
+                <li class="page-item active">
+                    <a class="page-link" href="#">1</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">2</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#">3</a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="#" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <!-- =============== Fim da Paginação ================== -->
+    </div>
+    <!-- =============== Fim do Conteúdo ================== -->
+<script src="js/controle.js"></script>
+<script>
+    $().ready(function(){
+        //console.log("Jquery funfando...")
+        $('.bt-carrinho').click(function(){
+            //alert($(this).attr('data-id'))
+            let dataid=$(this).attr('data-id') // Click do botão
+            let dataProduto=$(this).attr('data-produto')
+            let dataValor=$(this).attr('data-valor')
+            $.post("/carrinho-p",{ // Procura o app.post
+                livros_id:dataid,
+                qtd:1,
+                produto:dataProduto,
+                valor:dataValor
+            },
+            function(data, status){ // Callback
+                location.href='/carrinho' // Procura o app.get
+            },'json') // Formato das informações importadas (objeto)
+        })
+    })
+</script>
+<%- include('footer.ejs') %>
