@@ -13,9 +13,11 @@
             <li class="nav-item active">
                 <a class="nav-link" href="/">Home</a>
             </li>
+            <% if (!info.user){ %>            
             <li class="nav-item">
                 <a class="nav-link" href="/cadastro">Cadastre-se</a>
             </li>
+            <% } %>            
             <li class="nav-item">
                 <a class="nav-link" href="/promocoes">Promoções</a>
             </li>
@@ -31,11 +33,20 @@
             <li class="nav-item">
                 <a class="nav-link" href="/contato">Fale Conosco</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/login">Login</a>
-            </li>
+            <% if (info.user){ %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Sair</a>
+                </li>
+            <% } else { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+            <% } %>
         </ul>
         <div class="navbar-text">
+            <span class="d-inline-block mr-3 font-weight-bold text-white">
+             <%=info.user%>
+            </span>
             Books Online
         </div>
     </div>
